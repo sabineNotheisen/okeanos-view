@@ -1,6 +1,7 @@
 from config import *
-from flask import Flask, render_template, request
-from flask.ext.babel import Babel
+from flask import Flask, render_template
+from flask_babel import Babel
+from database.database import DataBase
 
 app = Flask(__name__)
 app.config['DEBUG'] = app_debug
@@ -16,6 +17,7 @@ def login():
 
 @app.route('/register')
 def register():
+    database = DataBase("database/database.db")
     inputs = [['name', 'text'], ['forename', 'text']]
     return render_template('register.html', inputs=inputs)
 
