@@ -1,5 +1,6 @@
 import MySQLdb
 from database.database_config import *
+from database.tables import *
 
 
 # noinspection SqlNoDataSourceInspection,SqlDialectInspection
@@ -24,26 +25,7 @@ class DataBase:
     def create_user_table(self):
         request = '''CREATE TABLE IF NOT EXISTS user
                          (
-                            id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
-                            adress VARCHAR(100),
-                            nom VARCHAR(100),
-                            prenom VARCHAR(100),
-                            email VARCHAR(255),
-                            tel VARCHAR(20),
-                            num_licence VARCHAR(20),
-                            age SMALLINT(6),
-                            tel_accident VARCHAR(20),
-                            niveau_actuel VARCHAR(20),
-                            niveau_prepare VARCHAR(20),
-                            date_naissance DATE,
-                            date_certificat DATE,
-                            cp INT(11),
-                            ville VARCHAR(50),
-                            materiel INT(1),
-                            formation INT(1),
-                            attestation INT(1),
-                            tarif SMALLINT(6),
-                            type VARCHAR(50)
+                            '''+get_user_table()+'''
                          );'''
         self.insert_request(request)
 
