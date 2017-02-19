@@ -1,5 +1,5 @@
 from config import *
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from flask_babel import Babel
 from database.database import DataBase
 
@@ -20,6 +20,13 @@ def register():
     database = DataBase()
     columns = database.get_all_columns_of_table("user")
     return render_template('register.html', inputs=columns)
+
+
+@app.route('/register_user', methods=['POST', 'GET'])
+def register_user():
+    database = DataBase()
+    database.register_user(request.form)
+    return redirect(url_for('register'))
 
 if __name__ == "__main__":
     app.run(host=app.config['MY_INTERNAL_IP'],

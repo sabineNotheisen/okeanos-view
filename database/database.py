@@ -24,7 +24,7 @@ class DataBase:
     def create_user_table(self):
         request = '''CREATE TABLE IF NOT EXISTS user
                          (
-                            id INTEGER PRIMARY KEY NOT NULL,
+                            id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
                             adress VARCHAR(100),
                             nom VARCHAR(100),
                             prenom VARCHAR(100),
@@ -55,3 +55,17 @@ class DataBase:
         columns = [column for column in self.execute_request(request)]
         cursor.close()
         return columns
+
+    def register_user(self, data):
+        columns = self.get_all_columns_of_table("user")
+        query = "INSERT INTO `user` ("
+        for column_name, column_type in columns:
+            if column_name != "id":
+                query += "`"+column_name+"`, "
+        query = query[:-2] + ") VALUES ("
+        for column_name, column_type in columns:
+            if column_name != "id":
+                query += "NULL" if (data[column_name] == '') else "'" + data[column_name] + "'"
+                query += ", "
+        query = query[:-2] + ")"
+        self.insert_request(query)

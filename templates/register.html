@@ -13,7 +13,7 @@
                 <h3 class="panel-title">{{ _('Register') }}</h3>
             </div>
             <div class="panel-body">
-                <form>
+                <form action="/register_user" method="POST">
                     {% for input, type_of_input in inputs %}
                         {% if input != "id" %}
                             <div class="form-group">
