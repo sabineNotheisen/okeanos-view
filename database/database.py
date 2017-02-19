@@ -1,12 +1,12 @@
-import sqlite3
+import MySQLdb
+from database.database_config import *
 
 
 # noinspection SqlNoDataSourceInspection,SqlDialectInspection
 class DataBase:
-    def __init__(self, datafile):
-        self.sql = sqlite3.connect(datafile, check_same_thread=False)
+    def __init__(self):
+        self.sql = MySQLdb.connect(host=db_host, user=db_user, passwd=db_password, db=db_name)
         self.create_tables()
-        self.sql.execute("PRAGMA foreign_keys = 1")
 
     def __del__(self):
         self.sql.close()

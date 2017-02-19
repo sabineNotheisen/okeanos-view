@@ -17,7 +17,7 @@ def login():
 
 @app.route('/register')
 def register():
-    database = DataBase("database/database.db")
+    database = DataBase()
     inputs = [['name', 'text'], ['forename', 'text']]
     return render_template('register.html', inputs=inputs)
 
