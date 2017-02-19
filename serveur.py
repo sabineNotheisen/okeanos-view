@@ -10,6 +10,12 @@ app.config['MY_INTERNAL_IP'] = my_ip
 babel = Babel(app)
 
 
+@app.route('/')
+def index():
+    database = DataBase()
+    return render_template('index.html', users=database.get_users(), columns=database.get_all_columns_of_table("user"))
+
+
 @app.route('/login')
 def login():
     return render_template('login.html')

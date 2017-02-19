@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block body %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            {% for column_name, column_type in columns %}
+            <td>{{column_name}}</td>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            <tr>
+                {% for column_name, column_type in columns %}
+                <td>{{ user[column_name] }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

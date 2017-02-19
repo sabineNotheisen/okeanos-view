@@ -34,7 +34,7 @@ class DataBase:
                      where table_schema = "''' + db_name + '''"
                      and table_name = "''' + table + '''''''"'''
         cursor = self.execute_request(request)
-        columns = [column for column in self.execute_request(request)]
+        columns = [column for column in cursor]
         cursor.close()
         return columns
 
@@ -51,3 +51,18 @@ class DataBase:
                 query += ", "
         query = query[:-2] + ")"
         self.insert_request(query)
+
+    def get_users(self):
+        request = '''select * from user'''
+        cursor = self.execute_request(request)
+        columns = self.get_all_columns_of_table("user")
+        users = []
+        for user in cursor:
+            current_user = {}
+            key = 0
+            for column_name, column_type in columns:
+                current_user[column_name] = user[key]
+                key += 1
+            users.append(current_user)
+        cursor.close()
+        return users
