@@ -18,8 +18,8 @@ def login():
 @app.route('/register')
 def register():
     database = DataBase()
-    inputs = [['name', 'text'], ['forename', 'text']]
-    return render_template('register.html', inputs=inputs)
+    columns = database.get_all_columns_of_table("user")
+    return render_template('register.html', inputs=columns)
 
 if __name__ == "__main__":
     app.run(host=app.config['MY_INTERNAL_IP'],

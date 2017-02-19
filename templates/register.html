@@ -14,10 +14,13 @@
             </div>
             <div class="panel-body">
                 <form>
-                    {% for input, type in inputs %}
-                        <div class="form-group">
-                            <input class="form-control" placeholder="{{ input }}" name="{{ input }}" type="{{ type }}">
-                        </div>
+                    {% for input, type_of_input in inputs %}
+                        {% if input != "id" %}
+                            <div class="form-group">
+                                <input class="form-control" placeholder="{{ input }}"
+                                       name="{{ input }}" type="{{ type_of_input }}">
+                            </div>
+                        {% endif %}
                     {% endfor %}
                     <button id="submit_register" class="btn btn-success">{{ _('Register') }}</button>
                 </form>

@@ -5,23 +5,36 @@ from database.database_config import *
 # noinspection SqlNoDataSourceInspection,SqlDialectInspection
 class DataBase:
     def __init__(self):
-        self.sql = MySQLdb.connect(host=db_host, user=db_user, passwd=db_password, db=db_name)
+        self.conn = MySQLdb.connect(host=db_host, user=db_user, passwd=db_password, db=db_name)
         self.create_tables()
 
-    def __del__(self):
-        self.sql.close()
-
     def create_tables(self):
-        c = self.sql.cursor()
-        self.create_user_table(c)
-        c.close()
-        self.sql.commit()
+        self.create_user_table()
 
-    @staticmethod
-    def create_user_table(c):
-        c.execute('''CREATE TABLE IF NOT EXISTS user
+    def execute_request(self, request):
+        cursor = self.conn.cursor()
+        cursor.execute(request)
+        return cursor
+
+    def insert_request(self, request):
+        cursor = self.execute_request(request)
+        self.conn.commit()
+        cursor.close()
+
+    def create_user_table(self):
+        request = '''CREATE TABLE IF NOT EXISTS user
                          (
                             id INTEGER PRIMARY KEY NOT NULL,
                             name TEXT,
                             forename TEXT
-                         );''')
+                         );'''
+        self.insert_request(request)
+
+    def get_all_columns_of_table(self, table):
+        request = '''select column_name, column_type from information_schema.columns
+                     where table_schema = "''' + db_name + '''"
+                     and table_name = "''' + table + '''''''"'''
+        cursor = self.execute_request(request)
+        columns = [column for column in self.execute_request(request)]
+        cursor.close()
+        return columns
