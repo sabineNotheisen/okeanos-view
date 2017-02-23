@@ -13,7 +13,8 @@ babel = Babel(app)
 @app.route('/')
 def index():
     database = DataBase()
-    return render_template('index.html', users=database.get_users(), columns=database.get_all_columns_of_table("user"))
+    return render_template('index.html', users=database.find_all("adherent"),
+                           columns=database.get_all_columns_of_table("adherent"))
 
 
 @app.route('/login')
@@ -24,14 +25,16 @@ def login():
 @app.route('/register')
 def register():
     database = DataBase()
-    columns = database.get_all_columns_of_table("user")
-    return render_template('register.html', inputs=columns)
+    adherent_inputs = database.get_all_columns_of_table("adherent")
+    types_of_adherent = database.find_all("type_of_adherent")
+    return render_template('register.html', adherent_inputs=adherent_inputs,
+                           types_of_adherent=types_of_adherent)
 
 
 @app.route('/register_user', methods=['POST', 'GET'])
 def register_user():
     database = DataBase()
-    database.register_user(request.form)
+    database.register_adherent(request.form)
     return redirect(url_for('register'))
 
 if __name__ == "__main__":

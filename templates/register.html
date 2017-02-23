@@ -15,11 +15,20 @@
             </div>
             <div class="panel-body">
                 <form action="/register_user" method="POST">
-                    {% for input, type_of_input in inputs %}
+                    {% for input, type_of_input in adherent_inputs %}
                         {% if input != "id" %}
                             <div class="form-group">
+                            {% if input == "type_id" %}
+                                <!--suppress HtmlFormInputWithoutLabel -->
+                                <select class="form-control" name="{{ input }}">
+                                    {% for type_of_adherent in types_of_adherent %}
+                                    <option value="{{ type_of_adherent['id'] }}">{{ type_of_adherent['type']}}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
                                 <input class="form-control" placeholder="{{ input }}"
                                        name="{{ input }}" type="{{ type_of_input }}">
+                            {% endif %}
                             </div>
                         {% endif %}
                     {% endfor %}
